@@ -17,8 +17,12 @@ def ellipsesFromImage(im, bg):
         continue
 
       points = np.array(points)
-      hull = ConvexHull(points)
-      pixels = points[hull.vertices]
+      try:
+          hull = ConvexHull(points)
+          pixels = points[hull.vertices]
+      except:
+          print("Convex Hull Error")
+          continue
 
       (offset, coef) = fitEllipse(pixels)
 
@@ -105,7 +109,11 @@ def fitEllipse(points):
 
   cons = {}
   cons['type'] = 'ineq'
-  cons['fun'] = lambda coef: (coef[0] ** 2 / 4 < coef[1]) and coef[2]**2 / 4 + coef[3] ** 2 / (4*coef[1]) > coef[4]
+  #cons['fun'] = lambda coef: (coef[0] ** 2 / 4 < coef[1]) and coef[2]**2 / 4 + coef[3] ** 2 / (4*coef[1]) > coef[4]
+  #cons['fun'] = lambda coef: coef[1] - (coef[0] ** 2 / 4)
+  cons['fun'] = lambda coef: (coef[1] * coef[2] ** 2 / 4 + coef[3] ** 2 / 4) - coef[1] * coef[4]
+  cons['lb'] = 0
+  cons['up'] = np.inf
 
   opt = minimize(lambda c: costFunction(M, p[:,0], c), coef, constraints=cons, jac=lambda c: gradFunction(M, p[:,0], c))
 

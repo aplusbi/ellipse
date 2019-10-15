@@ -15,7 +15,6 @@ def drawEllipse(im, e, color):
   tau = e[4]
 
   # get a bunch of points between 0 and 2pi
-  print a, b
   t = np.linspace(0, 2*np.pi, min(a*b, 500))
 
   # rotation matrix

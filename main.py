@@ -69,7 +69,7 @@ def writeEllipseCsv(filename, ellipses):
   rows = np.insert(rows, 0, parents, axis=1)
   rows = np.insert(rows, 0, indices, axis=1)
 
-  with open(filename, 'wb') as output:
+  with open(filename, 'w') as output:
     writer = csv.writer(output, delimiter=',')
     writer.writerow(['index', 'parent', 'h', 'k', 'a', 'b', 'tau', 'azimuth', 'error'])
     writer.writerows(rows.tolist())
