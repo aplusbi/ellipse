@@ -11,14 +11,14 @@ def main():
   reader = csv.reader(csvhandle)
   ellipses = [e for e in reader]
   ellipses = ellipses[1:]
-  ellipses = [ [float(x) for x in e] for e in ellipses]
+  ellipses = [ [float(x) for x in e[:7]] for e in ellipses]
   cones = filter(lambda e: len(e) == 5, ellipses)
   craters = filter(lambda e: len(e) > 5, ellipses)
 
   cones_major = [axis.getLine(axis.getMajorAxis(e)) for e in cones]
   craters_major = [axis.getLine(axis.getMajorAxis(e)) for e in craters]
-  print cones_major
-  print craters_major
+  print(cones_major)
+  print(craters_major)
 
 if __name__=='__main__':
   main()
